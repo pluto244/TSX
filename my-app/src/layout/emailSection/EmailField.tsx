@@ -38,7 +38,9 @@ const EmailField: React.FC = observer(() => {
                 </div>
             ) : (
                 <div>
-                    <div>E-mail: {emailStore.email}</div>
+                    <div>
+                        <span>E-mail: {emailStore.email}</span>
+                        </div>
                     <button onClick={handleEditClick}>Редактировать</button>
                 </div>
             )}

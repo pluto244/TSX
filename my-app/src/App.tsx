@@ -1,10 +1,8 @@
 import React from "react";
-import ApiCaller from "./components/apiCaller/ApiCaller";
 import styled from "styled-components";
-import EmailField from "./layout/emailSection/EmailField";
 import EmailSection from "./layout/emailSection/EmailSection";
-import RolesSection from "./layout/RolesSection";
-import CandidateSection from "./layout/CandidateSection";
+import RolesSection from "./layout/rolesSection/RolesSection";
+import CandidateSection from "./layout/candidate/CandidateSection";
 
 const App = () => {
     return (

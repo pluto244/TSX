@@ -4,7 +4,7 @@ import EmailField from './EmailField'
 export default function EmailSection() {
     return (
         <section>
-            <EmailField/>
+            <EmailField />
         </section>
     )
 }

@@ -1,12 +1,9 @@
-import React, { useEffect } from "react";
-import { observer } from "mobx-react";
+import React from "react";
+import { observer } from "mobx-react-lite";
 import rolesStore from "../../stores/RolesStore";
+import ShowRoles from "./showRoles/ShowRoles";
 
-const RolesDisplay = () => {
-    useEffect(() => {
-        rolesStore.loadFromLocalStorage();
-    }, []);
-
+const Roles = observer(() => {
     const handleFetchRoles = () => {
         rolesStore.fetchRoles();
     };
@@ -17,22 +14,20 @@ const RolesDisplay = () => {
                 onClick={handleFetchRoles} 
                 disabled={rolesStore.loading}
             >
-                {rolesStore.loading ? 'Fetching...' : 'Fetch Roles'}
+                {rolesStore.loading ? 'Ищем...' : 'Загрузить все направления'}
             </button>
             {rolesStore.loading && <p>Загружаем роли...</p>}
             {rolesStore.error && <p>Ошибка: {rolesStore.error}</p>}
             {rolesStore.roles.length === 0 && !rolesStore.loading && !rolesStore.error && (
                 <p>Загрузите роли</p>
             )}
+
             {rolesStore.roles.length > 0 && (
-                <ul>
-                    {rolesStore.roles.map((role) => (
-                        <li key={role.id}>{role.name}</li>
-                    ))}
-                </ul>
+                <ShowRoles />
             )}
+            
         </div>
     );
-};
+});
 
-export default observer(RolesDisplay);
+export default Roles;
