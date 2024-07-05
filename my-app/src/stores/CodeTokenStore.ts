@@ -1,5 +1,6 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import userFormStore from "./UserFormStore";
+import emailStore from "./EmailStore";
 
 class CodeTokenStore {
     email: string = "";
@@ -12,11 +13,11 @@ class CodeTokenStore {
 
     constructor() {
         makeAutoObservable(this);
-        this.loadEmailFromLocalStorage();
+        this.loadEmailFromEmailStorage();
     }
 
-    loadEmailFromLocalStorage() {
-        const email = localStorage.getItem("email");
+    loadEmailFromEmailStorage() {
+        const email = emailStore.email;
         if (email) {
             this.email = email;
         }
@@ -51,7 +52,7 @@ class CodeTokenStore {
             });
 
             if (!response.ok) {
-                throw new Error("Failed to submit");
+                throw new Error("Попробуйте еще раз чуть позже");
             }
 
             const data = await response.json();
@@ -65,7 +66,7 @@ class CodeTokenStore {
             runInAction(() => {
                 this.getTokenLoading = false;
                 this.getTokenLoaded = false;
-                console.error("Error submitting form:", error);
+                console.error("Попробуйте еще раз чуть позже", error);
             });
         }
     }
@@ -112,7 +113,7 @@ class CodeTokenStore {
             runInAction(() => {
                 this.setStatusLoading = false;
                 this.setStatusLoaded = false;
-                console.error("Error submitting form:", error);
+                console.error("Попробуйте еще раз чуть позже", error);
             });
         }
     }

@@ -1,13 +1,13 @@
 import React from 'react'
-import Roles from './Roles'
 import { StyledSection } from '../../components/wrappers/Wrappers'
+import SignUp from './signUp/SignUp'
 import { StyledH2 } from '../../components/fonts/FontsStyles'
 
-export default function RolesSection() {
+export default function SingUpSection() {
     return (
         <StyledSection>
-            <StyledH2>Направления подготовки в лагере</StyledH2>
-            <Roles/>
+            <StyledH2>Запишитесь в таблицу кандидатов</StyledH2>
+            <SignUp />
         </StyledSection>
     )
 }

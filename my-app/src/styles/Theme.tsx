@@ -1,29 +1,19 @@
 export const theme = {
     colors: {
-        primaryBg: "#2C2C2C",
-        secondaryBg: "#414141",
-        accent: "#00C4F0",
-        gradient: "linear-gradient(87.32deg, rgba(0, 196, 240, 1.00) 0%,rgba(226, 149, 0, 1.00) 100%)",
+        primaryBg: "#d9d9d9",
+        pink: "#ff2969",
+        pinkHover: "#7d0e3c",
+        green: "#8eff59",
+        greenHover: '#03c03c',
+        blue: "#00bcff",
+        blueHover: "#00bcff",
 
-        hoverGradient: "linear-gradient(87.32deg, rgba(0, 117, 143, 1.00) 0%,rgba(136, 90, 1, 1.00) 100%)",
-        blueShadow: "0px 2px 13px 0px rgba(0, 196, 240, 0.48)",
-        hoverShadow: "0px 5px 18px 0px rgba(0, 196, 240, 0.48)",
-
-        mainFont: "#FFFFFF",
-        descFont: "#E4E4E4",
+        mainFont: "#000000",
+        descFont: "#FFFFFF",
     },
     fonts: {
-        navLinks:{
-            family: "'Montserrat', sans-serif",
-            size: 18,
-            weight: 300,
-        },
         h1 :{
             size: 48,
-            weight: 700,
-        },
-        name: {
-            size: 72,
             weight: 700,
         },
         p: {
@@ -35,14 +25,9 @@ export const theme = {
             size: 18,
             weight: 700,
         },
-        
-        skillTag: {
-            size: 24,
-            weight: 300,
-        },
         h2: {
-            size: 48,
-            weight: 400,
+            size: 32,
+            weight: 600,
         },
 
     },

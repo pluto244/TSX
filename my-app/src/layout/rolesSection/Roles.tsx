@@ -2,6 +2,8 @@ import React from "react";
 import { observer } from "mobx-react-lite";
 import rolesStore from "../../stores/RolesStore";
 import ShowRoles from "./showRoles/ShowRoles";
+import { SectionWrapper } from "../../components/wrappers/Wrappers";
+import { StyledResponse } from "../../components/fonts/FontsStyles";
 
 const Roles = observer(() => {
     const handleFetchRoles = () => {
@@ -9,24 +11,24 @@ const Roles = observer(() => {
     };
 
     return (
-        <div>
+        <SectionWrapper>
             <button 
                 onClick={handleFetchRoles} 
                 disabled={rolesStore.loading}
             >
                 {rolesStore.loading ? 'Ищем...' : 'Загрузить все направления'}
             </button>
-            {rolesStore.loading && <p>Загружаем роли...</p>}
-            {rolesStore.error && <p>Ошибка: {rolesStore.error}</p>}
+            {rolesStore.loading && <StyledResponse>Загружаем роли...</StyledResponse>}
+            {rolesStore.error && <StyledResponse>Ошибка: {rolesStore.error}</StyledResponse>}
             {rolesStore.roles.length === 0 && !rolesStore.loading && !rolesStore.error && (
-                <p>Загрузите роли</p>
+                <StyledResponse>Загрузите роли</StyledResponse>
             )}
 
             {rolesStore.roles.length > 0 && (
                 <ShowRoles />
             )}
             
-        </div>
+        </SectionWrapper>
     );
 });
 

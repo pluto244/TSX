@@ -1,11 +1,12 @@
 // показывать email и маскировать код и полученный токен
 import React from 'react'
 import CodeTokenStore from '../../../stores/CodeTokenStore'
+import { StyledH2 } from '../../../components/fonts/FontsStyles'
 
 const ShowToken = () => {
     return (
         <div>
-            <h2>Ваш сформированный токен</h2>
+            <StyledH2>Ваш сформированный токен</StyledH2>
             <ul>
                 <li>Email: {CodeTokenStore.email}</li>
                 <li>Code: {CodeTokenStore.maskedCoin}</li>

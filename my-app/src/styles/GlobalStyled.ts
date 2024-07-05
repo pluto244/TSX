@@ -11,6 +11,7 @@ export const GlobalStyle = createGlobalStyle`
     }
     
     body {
+        
         margin: 0;
         font-family:'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
             'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -23,14 +24,31 @@ export const GlobalStyle = createGlobalStyle`
 
     }
         
-    a{
-        text-decoration: none;
-    }
     ul{
         list-style: none;
     }
-    button {
-        background-color: unset;
-        border: none;
-    }
+
+button {
+    background-color: ${theme.colors.pink};
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: ${theme.colors.green};
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    color: white;
+}
+
+button:disabled {
+    background-color: gray;
+    cursor: not-allowed;
+    color: white;
+}
+
 `

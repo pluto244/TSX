@@ -1,13 +1,15 @@
 import React from 'react'
 import { observer } from 'mobx-react';
 import codeTokenStore from '../../../stores/CodeTokenStore';
+import { SectionWrapper } from '../../../components/wrappers/Wrappers';
+import { StyledResponse } from '../../../components/fonts/FontsStyles';
 
 const SetStatusCandidate = observer(() => {
     const handleSetStatus= () => {
         codeTokenStore.setStatus();
     }
     return (
-        <div>
+        <SectionWrapper>
             <button disabled={codeTokenStore.setStatusLoaded || codeTokenStore.setStatusLoading} onClick={handleSetStatus}>
                 {codeTokenStore.setStatusLoading ? "Устанавливаем статус..." : "Установить статус"}
             </button>
@@ -15,10 +17,10 @@ const SetStatusCandidate = observer(() => {
             {codeTokenStore.setStatusLoaded && (
                 <>
                     <h3>Ваш статус:</h3>
-                    <p>{codeTokenStore.statusRequest}</p>
+                    <StyledResponse>{codeTokenStore.statusRequest}</StyledResponse>
                 </>
             )}
-        </div>
+        </SectionWrapper>
     )
 });
 

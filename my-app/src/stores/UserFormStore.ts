@@ -1,4 +1,5 @@
 import { makeAutoObservable, runInAction } from "mobx";
+import emailStore from "./EmailStore";
 
 class UserFormStore {
     lastName: string = "";
@@ -9,10 +10,11 @@ class UserFormStore {
     error: string | null = null;
     loading: boolean = false;
     responseMessage: string | null = null;
+    errors: { lastName?: string; firstName?: string; selectedRole?: string } = {};
 
     constructor() {
         makeAutoObservable(this);
-        this.loadEmailFromLocalStorage();
+        this.loadEmailFromEmailStorage();
     }
 
     setLastName(lastName: string) {
@@ -27,11 +29,29 @@ class UserFormStore {
         this.selectedRole = selectedRole;
     }
 
-    loadEmailFromLocalStorage() {
-        const email = localStorage.getItem("email");
+    loadEmailFromEmailStorage() {
+        const email = emailStore.email;
         if (email) {
             this.email = email;
         }
+    }
+
+    validateForm(): boolean {
+        this.errors = {};
+
+        if (this.lastName === "") {
+            this.errors.lastName = "Заполните фамилию";
+        }
+
+        if (this.firstName === "") {
+            this.errors.firstName = "Заполните имя";
+        }
+
+        if (this.selectedRole === "") {
+            this.errors.selectedRole = "Выберите роль";
+        }
+
+        return Object.keys(this.errors).length === 0;
     }
 
     async submitForm() {
@@ -43,41 +63,30 @@ class UserFormStore {
         };
 
         try {
-            if( this.lastName === "" || this.firstName === "" || this.selectedRole === "") {
-                alert ("Заполните все поля")
+            this.loading = true;
+            const response = await fetch("http://193.19.100.32:7000/api/sign-up", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(candidate),
+            });
 
+            if (!response.ok) {
+                throw new Error("Попробуйте еще раз чуть позже");
             }
-            else{
-                this.loading = true; 
-                const response = await fetch("http://193.19.100.32:7000/api/sign-up", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(candidate)
-                });
-                
-                
-                if (!response.ok) {
-                    
-                    throw new Error("Failed to submit");
-                }
 
-                const data = await response.json();
-                
-                runInAction(() => {
-                    this.loading = false;
-                    this.isSubmitted = true;
-                    this.responseMessage = data;
-                    console.log(this.responseMessage, "a");
-                    
-                });
-            }
+            const data = await response.json();
+            runInAction(() => {
+                this.loading = false;
+                this.isSubmitted = true;
+                this.responseMessage = data;
+            });
         } catch (error) {
             runInAction(() => {
                 this.error = (error as Error).message;
                 this.responseMessage = null;
-
+                this.loading = false;
             });
         }
     }

@@ -3,8 +3,10 @@ import { observer } from 'mobx-react';
 import userFormStore from '../../../stores/UserFormStore';
 import rolesStore from '../../../stores/RolesStore';
 import emailStore from '../../../stores/EmailStore';
+import styled from 'styled-components';
+import { StyledErrorResponse, StyledInvalidInput, StyledResponse } from '../../../components/fonts/FontsStyles';
 
-const SignUp: React.FC = observer(() => {
+const SignUp = observer(() => {
     const handleLastNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         userFormStore.setLastName(event.target.value);
     };
@@ -18,47 +20,52 @@ const SignUp: React.FC = observer(() => {
     };
 
     const handleSignInClick = () => {
-        userFormStore.submitForm();
+        if (userFormStore.validateForm()) {
+            userFormStore.submitForm();
+        }
     };
 
     return (
-        <div>
-            <label>
+        <StyledForm >
+            <StyledLabel>
                 <span>Фамилия</span>
-                <input
+                <StyledInput
                     name="lastName"
                     value={userFormStore.lastName}
                     onChange={handleLastNameChange}
                     disabled={userFormStore.isSubmitted}
                 />
-            </label>
+                {userFormStore.errors.lastName && <StyledInvalidInput>{userFormStore.errors.lastName}</StyledInvalidInput>}
+            </StyledLabel>
 
-            <label>
+            <StyledLabel>
                 <span>Имя</span>
-                <input
+                <StyledInput
                     name="firstName"
                     value={userFormStore.firstName}
                     onChange={handleFirstNameChange}
                     disabled={userFormStore.isSubmitted}
                 />
-            </label>
+                {userFormStore.errors.firstName && <StyledInvalidInput>{userFormStore.errors.firstName}</StyledInvalidInput>}
+            </StyledLabel>
 
-            <label>
+            <StyledLabel>
                 <span>Ваша роль</span>
-                <select
+                <StyledSelect
                     name="roleSelector"
                     value={userFormStore.selectedRole}
                     onChange={handleRoleChange}
                     disabled={userFormStore.isSubmitted}
                 >
-                    <option value="">Select a role</option>
+                    <option value="">Выберите направление</option>
                     {rolesStore.roles.map((role) => (
                         <option key={role.id} value={role.name}>
                             {role.name}
                         </option>
                     ))}
-                </select>
-            </label>
+                </StyledSelect>
+                {userFormStore.errors.selectedRole && <StyledInvalidInput>{userFormStore.errors.selectedRole}</StyledInvalidInput>}
+            </StyledLabel>
 
             <div>
                 <span>E-mail: {emailStore.email}</span>
@@ -71,11 +78,45 @@ const SignUp: React.FC = observer(() => {
                 {userFormStore.loading ? "Подтверждаем запись" : "Отправить"}
             </button>
 
-            {userFormStore.loading && <p>Получаем результат...</p>}
-            {userFormStore.error && <p>{userFormStore.error}</p>}
-            {userFormStore.responseMessage && <p>{userFormStore.responseMessage}</p>}
-        </div>
+            {userFormStore.loading && <StyledResponse>Получаем результат...</StyledResponse>}
+            {userFormStore.error && <StyledErrorResponse>{userFormStore.error}</StyledErrorResponse>}
+            {userFormStore.responseMessage && <StyledResponse>{userFormStore.responseMessage}</StyledResponse>}
+        </StyledForm>
     );
 });
 
 export default SignUp;
+
+const StyledForm = styled.div`
+    max-width: 350px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px;
+
+`
+const StyledLabel = styled.label`
+    width:100%;
+`
+
+const StyledInput = styled.input`
+    width: 100%;
+    padding: 12px 20px;
+    margin: 0px 0px 10px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+`
+
+const StyledSelect = styled.select`
+    width: 100%;
+    padding: 12px 20px;
+    margin: 0px 0px 10px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+`
+

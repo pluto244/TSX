@@ -1,8 +1,10 @@
 import React from 'react';
 import { observer } from 'mobx-react-lite';
 import emailStore from '../../stores/EmailStore';
+import { SectionWrapper } from '../../components/wrappers/Wrappers';
+import styled from 'styled-components';
 
-const EmailField: React.FC = observer(() => {
+const EmailField = observer(() => {
     
     const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         emailStore.setEmail(event.target.value);
@@ -18,12 +20,12 @@ const EmailField: React.FC = observer(() => {
 
 
     return (
-        <div>
+        <SectionWrapper>
             {emailStore.isEditing ? (
                 <div>
                     <label>
                         E-mail:
-                        <input
+                        <StyledEmailInput
                             name="email"
                             value={emailStore.email}
                             onChange={handleEmailChange}
@@ -44,8 +46,19 @@ const EmailField: React.FC = observer(() => {
                     <button onClick={handleEditClick}>Редактировать</button>
                 </div>
             )}
-        </div>
+        </SectionWrapper>
     );
 });
 
 export default EmailField;
+
+
+const StyledEmailInput = styled.input`
+    width: 100%;
+    padding: 12px 20px;
+    margin: 0px 0px 10px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+`

@@ -21,7 +21,7 @@ class RolesStore {
         try {
             const response = await fetch("http://193.19.100.32:7000/api/get-roles");
             if (!response.ok) {
-                throw new Error("Failed to fetch roles");
+                throw new Error("Попробуйте еще раз чуть позже");
             }
             const data = await response.json();
             if (Array.isArray(data.roles) && data.roles.length > 0) {
@@ -31,7 +31,7 @@ class RolesStore {
                     this.saveToLocalStorage();
                 });
             } else {
-                throw new Error("No roles found");
+                throw new Error("Попробуйте еще раз чуть позже");
             }
         } catch (error) {
             runInAction(() => {
