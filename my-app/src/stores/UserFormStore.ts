@@ -5,7 +5,6 @@ class UserFormStore {
     lastName: string = "";
     firstName: string = "";
     selectedRole: string = "";
-    email: string = "";
     isSubmitted: boolean = false;
     error: string | null = null;
     loading: boolean = false;
@@ -14,7 +13,6 @@ class UserFormStore {
 
     constructor() {
         makeAutoObservable(this);
-        this.loadEmailFromEmailStorage();
     }
 
     setLastName(lastName: string) {
@@ -29,12 +27,6 @@ class UserFormStore {
         this.selectedRole = selectedRole;
     }
 
-    loadEmailFromEmailStorage() {
-        const email = emailStore.email;
-        if (email) {
-            this.email = email;
-        }
-    }
 
     validateForm(): boolean {
         this.errors = {};
@@ -58,7 +50,7 @@ class UserFormStore {
         const candidate = {
             last_name: this.lastName,
             first_name: this.firstName,
-            email: this.email,
+            email: emailStore.getEmail(),
             role: this.selectedRole,
         };
 

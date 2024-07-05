@@ -3,7 +3,6 @@ import userFormStore from "./UserFormStore";
 import emailStore from "./EmailStore";
 
 class CodeTokenStore {
-    email: string = "";
     getTokenLoading: boolean = false;
     getTokenLoaded: boolean = false;
     coin: string = "";
@@ -13,15 +12,8 @@ class CodeTokenStore {
 
     constructor() {
         makeAutoObservable(this);
-        this.loadEmailFromEmailStorage();
     }
 
-    loadEmailFromEmailStorage() {
-        const email = emailStore.email;
-        if (email) {
-            this.email = email;
-        }
-    }
     get maskedCoin() {
         if (this.coin.length > 20) {
             return "********************" + this.coin.slice(20);
@@ -44,7 +36,7 @@ class CodeTokenStore {
             }
 
             this.getTokenLoading = true;
-            const response = await fetch(`http://193.19.100.32:7000/api/get-code?email=${encodeURIComponent(this.email)}`, {
+            const response = await fetch(`http://193.19.100.32:7000/api/get-code?email=${encodeURIComponent(emailStore.getEmail())}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -79,7 +71,7 @@ class CodeTokenStore {
 
     async setStatus() {
         const requestBody = {
-            token: this.EncodeToBase64(this.email, this.coin),
+            token: this.EncodeToBase64(emailStore.getEmail(), this.coin),
             status: "increased"
         };
 
@@ -99,7 +91,7 @@ class CodeTokenStore {
             });
 
             if (!response.ok) {
-                throw new Error("Failed to submit");
+                throw new Error("Попробуйте еще раз чуть позже");
             }
 
             const data = await response.json();

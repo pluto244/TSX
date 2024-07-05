@@ -20,7 +20,6 @@ class EmailStore {
             localStorage.setItem("email", this.email);
             this.isEditing = false;
             this.showError = false;
-        
         } else {
             this.showError = true;
         }
@@ -32,7 +31,6 @@ class EmailStore {
             this.email = email;
             this.isEditing = false;
         }
-
     }
 
     toggleEditing() {
@@ -41,6 +39,10 @@ class EmailStore {
 
     get isEmailValid(): boolean {
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.email);
+    }
+
+    getEmail() {
+        return this.email;
     }
 }
 
